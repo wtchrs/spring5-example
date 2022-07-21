@@ -2,12 +2,15 @@ package xyz.firstlab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import xyz.firstlab.member.DuplicateMemberException;
 import xyz.firstlab.member.MemberRegisterService;
 import xyz.firstlab.member.RegisterRequest;
 import xyz.firstlab.member.WrongIdPasswordException;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/register")
@@ -18,6 +21,11 @@ public class RegisterController {
     @Autowired
     public void setRegSvc(MemberRegisterService regSvc) {
         this.regSvc = regSvc;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(new RegisterRequestValidator());
     }
 
     @RequestMapping("/step1")
@@ -40,11 +48,18 @@ public class RegisterController {
     }
 
     @PostMapping("/step3")
-    public String handleStep3(@ModelAttribute("formData") RegisterRequest regReq) {
+    public String handleStep3(@ModelAttribute("formData") @Valid RegisterRequest regReq, Errors errors) {
+        if (errors.hasErrors()) {
+            return "register/step2";
+        }
         try {
             regSvc.regist(regReq);
             return "register/step3";
-        } catch (DuplicateMemberException | WrongIdPasswordException e) {
+        } catch (DuplicateMemberException e) {
+            errors.rejectValue("email", "duplicate");
+            return "register/step2";
+        } catch (WrongIdPasswordException e) {
+            errors.reject("notMatchingIdPassword");
             return "register/step2";
         }
     }
