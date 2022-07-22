@@ -1,4 +1,4 @@
-package xyz.firstlab.member;
+package xyz.firstlab.spring;
 
 import java.time.LocalDateTime;
 
@@ -45,5 +45,9 @@ public class Member {
             throw new WrongIdPasswordException();
         }
         this.password = newPassword;
+    }
+
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
     }
 }

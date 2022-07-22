@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@ComponentScan(basePackages = {"xyz.firstlab.member"})
+@ComponentScan(basePackages = {"xyz.firstlab.spring"})
 @EnableTransactionManagement
 public class MemberConfig {
 

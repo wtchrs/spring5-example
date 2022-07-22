@@ -1,4 +1,4 @@
-package xyz.firstlab.member;
+package xyz.firstlab.spring;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

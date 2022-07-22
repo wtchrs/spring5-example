@@ -1,12 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Survey</title>
+    <title><spring:message code="survey.title"/></title>
 </head>
 <body>
-<h2>Survey</h2>
+<h2><spring:message code="survey.title"/></h2>
 <form method="post">
     <c:forEach var="q" items="${questions}" varStatus="status">
         <p>${status.index + 1}. ${q.title}<br>

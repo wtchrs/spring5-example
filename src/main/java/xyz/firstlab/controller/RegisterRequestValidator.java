@@ -3,7 +3,7 @@ package xyz.firstlab.controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import xyz.firstlab.member.RegisterRequest;
+import xyz.firstlab.spring.RegisterRequest;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

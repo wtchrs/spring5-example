@@ -5,10 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import xyz.firstlab.member.DuplicateMemberException;
-import xyz.firstlab.member.MemberRegisterService;
-import xyz.firstlab.member.RegisterRequest;
-import xyz.firstlab.member.WrongIdPasswordException;
+import xyz.firstlab.spring.DuplicateMemberException;
+import xyz.firstlab.spring.MemberRegisterService;
+import xyz.firstlab.spring.RegisterRequest;
+import xyz.firstlab.spring.WrongIdPasswordException;
 
 import javax.validation.Valid;
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.*;
+import xyz.firstlab.interceptor.AuthCheckInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -21,9 +22,19 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authCheckInterceptor()).addPathPatterns("/edit/**");
+    }
+
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/main").setViewName("main");
         registry.addRedirectViewController("/", "/main");
+    }
+
+    @Bean
+    public AuthCheckInterceptor authCheckInterceptor() {
+        return new AuthCheckInterceptor();
     }
 
     @Bean
