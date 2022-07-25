@@ -31,4 +31,14 @@ public class ControllerConfig {
     public ChangePasswordController changePasswordController() {
         return new ChangePasswordController();
     }
+
+    @Bean
+    public MemberListController memberListController() {
+        return new MemberListController();
+    }
+
+    @Bean
+    public MemberDetailController memberDetailController() {
+        return new MemberDetailController();
+    }
 }

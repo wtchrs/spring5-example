@@ -11,34 +11,41 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
 public class MemberDao {
 
-    private static class MemberRowMapper implements RowMapper<Member> {
-        @Override
-        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Member member = new Member(rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("NAME"),
-                                       rs.getTimestamp("REGDATE").toLocalDateTime());
-            member.setId(rs.getLong("ID"));
-            return member;
-        }
-    }
-
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> {
+        Member member = new Member(rs.getString("EMAIL"), rs.getString("PASSWORD"), rs.getString("NAME"),
+                                   rs.getTimestamp("REGDATE").toLocalDateTime());
+        member.setId(rs.getLong("ID"));
+        return member;
+    };
 
     public MemberDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Member selectByEmail(String email) {
-        List<Member> results = jdbcTemplate.query("select * from MEMBER where EMAIL = ?", new MemberRowMapper(), email);
+    public Member selectById(Long id) {
+        List<Member> results = jdbcTemplate.query("select * from MEMBER where ID = ?", memberRowMapper, id);
         return results.isEmpty() ? null : results.get(0);
     }
 
+    public Member selectByEmail(String email) {
+        List<Member> results = jdbcTemplate.query("select * from MEMBER where EMAIL = ?", memberRowMapper, email);
+        return results.isEmpty() ? null : results.get(0);
+    }
+
+    public List<Member> selectByRegdate(LocalDateTime from, LocalDateTime to) {
+        return jdbcTemplate.query("select * from MEMBER where REGDATE between ? and ? order by REGDATE desc",
+                                  memberRowMapper, from, to);
+    }
+
     public List<Member> selectAll() {
-        return jdbcTemplate.query("select * from MEMBER", new MemberRowMapper());
+        return jdbcTemplate.query("select * from MEMBER", memberRowMapper);
     }
 
     public int count() {
