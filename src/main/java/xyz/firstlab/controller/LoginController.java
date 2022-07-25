@@ -9,6 +9,8 @@ import xyz.firstlab.spring.AuthInfo;
 import xyz.firstlab.spring.AuthService;
 import xyz.firstlab.spring.WrongIdPasswordException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -29,19 +31,35 @@ public class LoginController {
     }
 
     @GetMapping
-    public String form(@ModelAttribute("loginCommand") LoginCommand loginCommand) {
+    public String form(@ModelAttribute("loginCommand") LoginCommand loginCommand,
+                       @CookieValue(value = "REMEMBER", required = false) Cookie rCookie) {
+        if (rCookie != null) {
+            loginCommand.setEmail(rCookie.getValue());
+            loginCommand.setRememberEmail(true);
+        }
         return "login/loginForm";
     }
 
     @PostMapping
-    public String submit(@ModelAttribute("loginCommand") @Valid LoginCommand loginCommand, Errors errors,
-                         HttpSession session) {
+    public String submit(@ModelAttribute("loginCommand") @Valid LoginCommand loginCommand,
+                         Errors errors, HttpSession session, HttpServletResponse response) {
         if (errors.hasErrors()) {
             return "login/loginForm";
         }
         try {
             AuthInfo authInfo = authService.authenticate(loginCommand.getEmail(), loginCommand.getPassword());
             session.setAttribute("authInfo", authInfo);
+
+            // TODO: Cookie encryption
+            Cookie rememberCookie = new Cookie("REMEMBER", loginCommand.getEmail());
+            rememberCookie.setPath("/");
+            if (loginCommand.isRememberEmail()) {
+                rememberCookie.setMaxAge(60 * 60 * 24 * 30);
+            } else {
+                rememberCookie.setMaxAge(0);
+            }
+            response.addCookie(rememberCookie);
+
             return "login/loginSuccess";
         } catch (WrongIdPasswordException e) {
             errors.reject("idPasswordNotMatching");
