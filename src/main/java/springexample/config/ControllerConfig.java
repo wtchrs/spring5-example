@@ -41,4 +41,9 @@ public class ControllerConfig {
     public MemberDetailController memberDetailController() {
         return new MemberDetailController();
     }
+
+    @Bean
+    public RestMemberController restApi() {
+        return new RestMemberController();
+    }
 }

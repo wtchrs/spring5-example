@@ -1,15 +1,19 @@
 package springexample.spring.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import springexample.spring.exception.WrongIdPasswordException;
 
 import java.time.LocalDateTime;
 
 public class Member {
     private Long id;
-    private String email;
+    private final String email;
+    @JsonIgnore
     private String password;
-    private String name;
-    private LocalDateTime registerDateTime;
+    private final String name;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private final LocalDateTime registerDateTime;
 
     public Member(String email, String password, String name, LocalDateTime regDateTime) {
         this.email = email;
