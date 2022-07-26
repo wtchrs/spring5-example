@@ -16,9 +16,9 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                xyz.firstlab.config.MvcConfig
-                xyz.firstlab.config.MemberConfig
-                xyz.firstlab.config.ControllerConfig
+                springexample.config.MvcConfig
+                springexample.config.MemberConfig
+                springexample.config.ControllerConfig
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

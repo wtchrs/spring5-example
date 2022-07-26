@@ -3,7 +3,7 @@ plugins {
     id 'war'
 }
 
-group 'xyz.firstlab'
+group 'springexample'
 version '1.0'
 
 repositories {
