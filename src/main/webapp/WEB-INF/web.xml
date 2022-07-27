@@ -19,6 +19,8 @@
                 springexample.config.MvcConfig
                 springexample.config.MemberConfig
                 springexample.config.ControllerConfig
+                springexample.config.PropertyConfig
+                springexample.config.DataSourceConfig
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
