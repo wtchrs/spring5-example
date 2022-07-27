@@ -30,7 +30,11 @@ mysql -h localhost -u root  # or with password, mysql -h localhost -u root -p
 mysql> source src/sql/ddl.sql
 ```
 
-It will generate MySQL user `spring5` with password `spring5` and database `spring5fs` and table `MEMBER` in `spring5fs`.
+It will generate MySQL user `spring5` with password `spring5` and database `spring5fs` and table `MEMBER` in
+`spring5fs`.
+Alternatively, you can use different database settings by modifying the
+profile([src/main/resources/profile/db.dev.properties](src/main/resources/profile/db.dev.properties))
+or create a new profile.
 
 And copy the generated war archive into `webapps` folder in your Apache Tomcat directory:
 
